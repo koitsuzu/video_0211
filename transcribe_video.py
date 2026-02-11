@@ -33,19 +33,56 @@ def transcribe_with_mistral(client: Mistral, audio_path: Path):
         )
     return response
 
-def process_and_summarize(client: Mistral, transcription_response):
+def load_terms(video_name: str = ""):
+    """
+    載入外部字詞庫，依影片名稱自動匹配對應的字詞組。
+    匹配邏輯：檢查 terms.json 中的 key 是否出現在影片檔名中。
+    若無匹配則使用 'default'。
+    """
+    terms_path = Path("terms.json")
+    if not terms_path.exists():
+        return {"corrections": {}, "key_terms": [], "topic_hint": ""}
+    
+    with open(terms_path, "r", encoding="utf-8") as f:
+        all_terms = json.load(f)
+    
+    # 依影片名稱匹配字詞庫
+    for key, terms in all_terms.items():
+        if key == "default":
+            continue
+        if key in video_name:
+            print(f"字詞庫匹配：「{key}」")
+            return terms
+    
+    # 無匹配則用 default
+    print("字詞庫匹配：使用預設 (default)")
+    return all_terms.get("default", {"corrections": {}, "key_terms": [], "topic_hint": ""})
+
+def process_and_summarize(client: Mistral, transcription_response, video_name: str = ""):
     """
     使用 Mistral Chat API 對逐字稿進行：
     1. 翻譯為繁體中文
-    2. 校正「輪機」為「砂輪機」
+    2. 依字詞庫校正專有名詞
     3. 篩選「關鍵知識點 (Key Knowledge Points)」
     4. 為每個知識點產生標題
     5. 產生內容摘要
     """
     print("正在處理文本：翻譯、校正專有名詞並篩選關鍵知識點...")
     
+    terms = load_terms(video_name)
+    
     segments = transcription_response.segments
     text_to_process = "\n".join([f"[{s.start}-{s.end}] {s.text}" for s in segments])
+    
+    # 動態組裝字詞庫提示
+    terms_section = ""
+    if terms.get("topic_hint"):
+        terms_section += f"- 本影片主題：{terms['topic_hint']}\n"
+    if terms.get("corrections"):
+        correction_rules = "、".join([f"「{k}」→「{v}」" for k, v in terms["corrections"].items()])
+        terms_section += f"- 名詞校正規則：{correction_rules}\n"
+    if terms.get("key_terms"):
+        terms_section += f"- 領域關鍵詞彙：{', '.join(terms['key_terms'])}\n"
     
     prompt = f"""
 你是一個專業的影音逐字稿翻譯與教學重點摘要專家。
@@ -54,8 +91,11 @@ def process_and_summarize(client: Mistral, transcription_response):
 ### 原始逐字稿內容：
 {text_to_process}
 
+### 字詞庫與專業術語參考：
+{terms_section}
+
 ### 重要任務與要求：
-1. **翻譯與校正**：將所有內容翻譯為「繁體中文」。特別注意：本影片主題是「砂輪機 (Angle Grinder)」，如果原始轉錄出現「輪機」，請務必更正為「砂輪機」。
+1. **翻譯與校正**：將所有內容翻譯為「繁體中文」。請嚴格依照上方「名詞校正規則」修正錯誤用詞。
 2. **篩選重點**：原始內容可能包含過多零碎的對話或雜訊。請從中挑選出「真正的關鍵知識點 (Key Knowledge Points)」。
 3. **摘要**：提供一份整體的繁體中文內容摘要。
 4. **輸出格式**：必須為 JSON。
@@ -74,7 +114,7 @@ def process_and_summarize(client: Mistral, transcription_response):
 }}
 6. **準則**：
    - 請將鄰近且主題相同的 segment 合併為一個 key_moment，確保總數量適中（建議 5-15 個）。
-   - 每個 key_moment 必須有一個精簡的「title」欄位，用一句話概括該段落的核心知識點（例如：「砂輪機安全護蓋的重要性」）。
+   - 每個 key_moment 必須有一個精簡的「title」欄位，用一句話概括該段落的核心知識點。
 
 請只返回 JSON 內容。
 """
@@ -256,7 +296,7 @@ def main():
                 transcription = transcribe_with_mistral(client, audio_path)
                 
                 # 3. 翻譯與篩選重點 (JSON)
-                processed_data = process_and_summarize(client, transcription)
+                processed_data = process_and_summarize(client, transcription, video_path.name)
                 
                 # 儲存 JSON（作為快取）
                 with open(json_file, "w", encoding="utf-8") as f:

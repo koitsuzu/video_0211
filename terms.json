@@ -1,0 +1,39 @@
+{
+    "default": {
+        "corrections": {},
+        "key_terms": [],
+        "topic_hint": ""
+    },
+    "砂輪機": {
+        "corrections": {
+            "輪機": "砂輪機",
+            "切斷機": "砂輪機"
+        },
+        "key_terms": [
+            "砂輪機",
+            "Angle Grinder",
+            "砂輪片",
+            "布輪",
+            "護目鏡",
+            "安全護蓋",
+            "扳手",
+            "螺帽",
+            "研磨",
+            "切割",
+            "拋光"
+        ],
+        "topic_hint": "砂輪機 (Angle Grinder) 的基礎教學與安全操作"
+    },
+    "RATIONAL": {
+        "corrections": {},
+        "key_terms": [
+            "RATIONAL",
+            "iCombi Pro",
+            "萬能蒸烤箱",
+            "開機",
+            "關機",
+            "主畫面"
+        ],
+        "topic_hint": "RATIONAL iCombi Pro 萬能蒸烤箱的開關機操作"
+    }
+}
