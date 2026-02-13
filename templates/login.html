@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 | AI 影片教材生成系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Decorations -->
+    <div
+        class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob">
+    </div>
+    <div
+        class="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000">
+    </div>
+    <div
+        class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000">
+    </div>
+
+    <div class="glass p-12 w-full max-w-md text-center relative z-10">
+        <div class="mb-8">
+            <div
+                class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/30">
+                <span class="text-4xl">🎓</span>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2">歡迎回來</h1>
+            <p class="text-white/70">請使用 Google 帳號登入系統</p>
+        </div>
+
+        <a href="/login"
+            class="flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-700 py-3.5 px-6 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl active:scale-[0.98] w-full">
+            <svg class="w-6 h-6" viewBox="0 0 24 24">
+                <path fill="#EA4335"
+                    d="M12 5.04c1.94 0 3.51.68 4.79 1.97l3.58-3.58C18.16 1.28 15.3 0 12 0 7.33 0 3.29 2.67 1.29 6.58l4.08 3.16C6.34 6.64 8.95 5.04 12 5.04z" />
+                <path fill="#34A853"
+                    d="M24 12c0-.86-.08-1.68-.21-2.48H12v4.86h6.75c-.29 1.58-1.18 2.92-2.52 3.81l3.91 3.03C22.42 19.11 24 15.84 24 12z" />
+                <path fill="#4285F4"
+                    d="M5.37 14.59c-.25-.74-.4-1.53-.4-2.34s.15-1.6.4-2.34l-4.08-3.16C.47 8.35 0 10.12 0 12c0 1.88.47 3.65 1.29 5.32l4.08-3.16c0-.5-.41-.5-.41-.5z" />
+                <path fill="#FBBC05"
+                    d="M12 24c3.24 0 5.97-1.07 7.96-2.91l-3.91-3.03c-1.1.74-2.5 1.18-4.05 1.18-3.04 0-5.63-1.6-6.6-4.01L1.29 18.39C3.29 21.33 7.33 24 12 24z" />
+            </svg>
+            <span>使用 Google 帳號登入</span>
+        </a>
+
+        <div class="mt-8 pt-8 border-t border-white/10">
+            <p class="text-white/50 text-sm">
+                &copy; 2026 AI 影片教材系統. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

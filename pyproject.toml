@@ -8,9 +8,18 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "authlib>=1.6.7",
+    "fastapi>=0.128.8",
+    "groq>=1.0.0",
+    "httpx>=0.28.1",
+    "itsdangerous>=2.2.0",
+    "jinja2>=3.1.6",
     "mistralai>=1.12.0",
     "moviepy>=2.2.1",
     "python-dotenv>=1.2.1",
+    "python-multipart>=0.0.22",
+    "sqlmodel>=0.0.33",
+    "uvicorn>=0.40.0",
 ]
 
 [build-system]

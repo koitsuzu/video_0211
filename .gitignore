@@ -27,3 +27,11 @@ venv/
 # Project specific
 temp_audio/
 output/
+output_mistral/
+output_groq/
+Video/
+database.db
+*.processing
+*.pdf
+# screenshots are usually inside output folders, but let's be safe
+**/screenshots/

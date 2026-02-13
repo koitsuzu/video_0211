@@ -102,13 +102,24 @@ uv sync
 MISTRAL_API_KEY=your_api_key_here
 ```
 
-### 執行
-1. 將影片檔放入 `Video/` 資料夾
-2. 執行：
+### 執行方式
+
+#### 1. 啟動 Web 操作介面 (推薦)
+包含上傳、管理、自動分流與成績看板功能：
 ```bash
-uv run python transcribe_video.py
+uv run uvicorn app:app --reload
 ```
-3. 查看 `output/` 資料夾中的結果
+訪問 `http://localhost:8000` 即可開始使用。
+
+#### 2. 純命令行執行 (CLI)
+```bash
+# 處理 Video/ 目錄下的所有影片
+uv run python transcribe_video.py
+
+# 或者使用 Groq 版本
+uv run python transcribe_video_groq.py
+```
+3. 查看各模型對應的 `output_*/` 資料夾中的結果
 
 ---
 
