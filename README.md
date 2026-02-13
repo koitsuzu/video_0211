@@ -97,10 +97,28 @@ uv sync
 ```
 
 ### 設定
-在專案根目錄建立 `.env` 檔案：
+在專案根目錄建立 `.env` 檔案，並填入以下資訊：
+```env
+# AI API Keys
+MISTRAL_API_KEY=your_mistral_key
+GROQ_API_KEY=your_groq_key
+
+# Google OAuth 2.0 (用於登入與管理權限)
+GOOGLE_CLIENT_ID=your_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_google_secret
+SECRET_KEY=any_random_string_for_session
+
+# 管理員設定 (選填)
+ADMIN_EMAIL=your_email@gmail.com
 ```
-MISTRAL_API_KEY=your_api_key_here
-```
+
+> [!TIP]
+> **Google Cloud Console 設定指南：**
+> 1. 憑證類型請選擇 **「網頁應用程式」**。
+> 2. **已授權的重新導向 URI** 必須包含：
+>    - `http://localhost:8000/auth/callback`
+>    - `http://127.0.0.1:8000/auth/callback`
+> 3. 如果專案處於測試模式，請在 **「OAuth 同意畫面」** 的 **「測試使用者」** 中加入您的 Email。
 
 ### 執行方式
 
